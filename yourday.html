@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Something made for uu Ekshu💖</title>
+  
+  <!-- SoundCloud Official Widget API Script -->
+  <script src="https://w.soundcloud.com/player/api.js"></script>
+
+  <style>
+    :root {
+      --bg-color: #fcedf2;
+      --card-bg: #ffffff;
+      --primary-pink: #ffb7c5;
+      --accent-purple: #8a71ad;
+      --text-dark: #3a2e4c;
+      --text-light: #706385;
+      --soft-pink: #ffeef2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      background-image: radial-gradient(#f0cbda 1.5px, transparent 1.5px);
+      background-size: 24px 24px;
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(0.8deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    .page {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .page.active {
+      display: block;
+      opacity: 1;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 32px;
+      padding: 30px 22px;
+      box-shadow: 0 12px 35px rgba(230, 160, 185, 0.25);
+      text-align: center;
+      position: relative;
+      border: 3px solid #fff;
+    }
+
+    .tag {
+      background: var(--soft-pink);
+      color: #e05275;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      border: 1px dashed #f8b5c4;
+    }
+
+    h1, h2 {
+      font-size: 1.6rem;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+    }
+
+    p.subtext {
+      color: var(--text-light);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      margin-bottom: 18px;
+    }
+
+    .gif-container {
+      margin: 15px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .cute-gif {
+      width: 130px;
+      height: 130px;
+      object-fit: contain;
+      border-radius: 20px;
+    }
+
+    .envelope-container {
+      background: #ffdce5;
+      border-radius: 24px;
+      padding: 25px 20px;
+      border: 2px dashed #ff9ebb;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .envelope-card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px 15px;
+      box-shadow: 0 4px 12px rgba(255, 182, 197, 0.3);
+    }
+
+    .seal-button {
+      width: 48px;
+      height: 48px;
+      background: #ff6584;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.3rem;
+      margin: 15px auto -38px auto;
+      box-shadow: 0 4px 10px rgba(255, 101, 132, 0.4);
+    }
+
+    .nav-btn {
+      background: linear-gradient(135deg, #ff85a2, #a07cc5);
+      color: white;
+      border: none;
+      padding: 13px 26px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      margin-top: 15px;
+      text-transform: uppercase;
+      box-shadow: 0 6px 18px rgba(255, 133, 162, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 22px rgba(255, 133, 162, 0.45);
+    }
+
+    /* CUSTOM PLAYER CONTROLS */
+    .audio-player {
+      background: #faf4fc;
+      border: 1px solid #f0d8f5;
+      border-radius: 20px;
+      padding: 16px;
+      margin: 15px 0;
+      text-align: left;
+    }
+
+    .audio-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #6a408c;
+    }
+
+    .audio-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      margin-bottom: 10px;
+    }
+
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .play-btn {
+      background: #a07cc5;
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(160, 124, 197, 0.3);
+    }
+
+    .progress-bar-container {
+      flex-grow: 1;
+      height: 8px;
+      background: #e2d5f0;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #ff85a2, #a07cc5);
+      border-radius: 10px;
+    }
+
+    /* CAROUSEL */
+    .carousel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .carousel-btn {
+      background: white;
+      border: 1px solid #f0d8f5;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--accent-purple);
+    }
+
+    .slide-img {
+      width: 210px;
+      height: 210px;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 4px solid white;
+      box-shadow: 0 6px 18px rgba(180, 140, 200, 0.2);
+    }
+
+    /* MINI GAME 1: CATCH HEARTS */
+    .game-box {
+      width: 100%;
+      height: 200px;
+      background: #fff5f8;
+      border: 2px dashed #ffaec3;
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      margin: 15px 0;
+    }
+
+    .heart-target {
+      position: absolute;
+      font-size: 2rem;
+      user-select: none;
+      transition: transform 0.1s;
+    }
+
+    /* MINI GAME 2: SCRATCH CARDS */
+    .scratch-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 15px 0;
+    }
+
+    .scratch-card {
+      position: relative;
+      background: #fff0f5;
+      border-radius: 16px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: var(--text-dark);
+      border: 1px solid #f8c3d3;
+      cursor: pointer;
+    }
+
+    .scratch-cover {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(135deg, #ff9ebb, #a07cc5);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.75rem;
+      transition: opacity 0.4s ease;
+    }
+
+    .scratch-card.revealed .scratch-cover {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* MINI GAME 3: QUIZ OPTIONS */
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 15px 0;
+    }
+
+    .quiz-opt {
+      background: #fdf5f8;
+      border: 1px solid #f2c9d8;
+      padding: 12px;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .grid-item {
+      background: #fdf8ff;
+      border: 1px solid #f4e8fb;
+      border-radius: 16px;
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .grid-item span { font-size: 1.6rem; }
+    .grid-item p { font-size: 0.8rem; font-weight: 600; }
+
+    .letter { text-align: left; background: #fffdf9; }
+
+    .offscreen-audio { position: absolute; left: -9999px; top: -9999px; opacity: 0.01; }
+  </style>
+</head>
+<body>
+
+  <!-- OFFSCREEN SOUNDCLOUD PLAYER -->
+  <div class="offscreen-audio">
+    <iframe id="scWidget" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/jerinjamex/yung-kai-blue-instrumental-1-hour-track"></iframe>
+  </div>
+
+  <!-- PAGE 1: ENVELOPE INTRO -->
+  <div class="page active" id="page-1">
+    <div class="card">
+      <div class="tag">🌸 For The Girl I Adore</div>
+      <div class="envelope-container" onclick="openAndPlay(2)">
+        <div class="envelope-card">
+          <h2>Something for uu Ekshu</h2>
+          <p class="subtext" style="margin-bottom:0;">happy girlfriend's day, my love ♡<br><em>urs, always</em></p>
+        </div>
+        <div class="seal-button">E</div>
+      </div>
+      
+      <div class="gif-container" style="margin-top: 25px; margin-bottom: -5px;">
+        <img class="cute-gif" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExMDhhbXE5c2tleDEzbnZwb2VnbGhsenBsMm05NDV4ZTd5NDQwaml5ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/KztT2c4u8mYYUiMKdJ/giphy.gif" alt="Cute Bears Hug">
+      </div>
+
+      <button class="nav-btn" onclick="openAndPlay(2)">OPEN PAGE ✨</button>
+    </div>
+  </div>
+
+  <!-- PAGE 2: MAIN GREETING & MUSIC -->
+  <div class="page" id="page-2">
+    <div class="card">
+      <div class="tag">💖 For My Favourite Person</div>
+      <h1>Happy Girlfriend's Day</h1>
+      <p class="subtext">for you, always ♡</p>
+
+      <div class="gif-container">
+        <img class="cute-gif" src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTkzdjJ2Y25oNjJsdWxyN3AwaWNjZWFmdzY0bzB6amVhbWZwMmY5eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/nyhYZlVSG7xMGUS1C9/giphy.gif" alt="Cute GIF 2">
+      </div>
+
+      <p class="subtext">Today is all abt u only Ekshu this I made for u only and it's so special for u ofc cz it's the day celebrated for u my jaan smilee 💖.</p>
+      
+      <!-- CUSTOM PLAYER CONTROLS -->
+      <div class="audio-player">
+        <div class="audio-title"> Blue (Instrumental)</div>
+        <div class="audio-subtitle" id="trackStatus">A TRACK THAT'S JUST US Onlyyyy</div>
+        
+        <div class="player-controls">
+          <button class="play-btn" id="playToggleBtn" onclick="togglePlay()">▶</button>
+          <div class="progress-bar-container" onclick="seekTrack(event)">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="nav-btn" onclick="nextPage(3)">MEMORIES ALBUM 📸</button>
+    </div>
+  </div>
+
+  <!-- PAGE 3: CAROUSEL PHOTO ALBUM -->
+  <div class="page" id="page-3">
+    <div class="card">
+      <div class="tag">See Our lil smoll Album</div>
+      <div class="carousel">
+        <button class="carousel-btn" onclick="prevSlide()">‹</button>
+        <img id="carousel-img" class="slide-img" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHhkeDFoam5mbGtuZ3Izc2RuODgzcmFiZDN5Z3dyODBtODNrcDFwZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hVle3v01CScLyGRe0i/giphy.gif" alt="Memory">
+        <button class="carousel-btn" onclick="nextSlide()">›</button>
+      </div>
+      <p id="carousel-counter" style="font-size: 0.8rem; color: var(--text-light); margin-bottom: 5px; font-weight: bold;">01 / 03</p>
+      <p id="carousel-caption" class="subtext" style="font-weight: 500; min-height: 40px;">the day I realized you were my favourite hello.</p>
+
+      <button class="nav-btn" onclick="nextPage(4)">PLAY GAME 1: CATCH HEARTS 🎮</button>
+    </div>
+  </div>
+
+  <!-- PAGE 4: GAME 1 - CATCH THE HEARTS -->
+  <div class="page" id="page-4">
+    <div class="card">
+      <div class="tag">🎮 Mini Game 1</div>
+      <h2>Catch My Love 💕</h2>
+      <p class="subtext">Tap as many floating hearts as u can in 10 seconds!</p>
+
+      <div style="font-weight: bold; margin-bottom: 5px;" id="game1-status">Score: 0 | Time Left: 10s</div>
+      
+      <div class="game-box" id="game-box">
+        <div class="heart-target" id="heart-target" onclick="catchHeart()">💖</div>
+      </div>
+
+      <button class="nav-btn" onclick="startCatchGame()">START GAME 🚀</button>
+      <br>
+      <button class="nav-btn" style="background: transparent; color: var(--accent-purple); box-shadow: none;" onclick="nextPage(5)">NEXT: SCRATCH CARDS 🪄</button>
+    </div>
+  </div>
+
+  <!-- PAGE 5: GAME 2 - SCRATCH CARDS -->
+  <div class="page" id="page-5">
+    <div class="card">
+      <div class="tag">🪄 Mini Game 2</div>
+      <h2>Reveal Hidden Notes ✨</h2>
+      <p class="subtext">Tap each card to scratch open a hidden message!</p>
+
+      <div class="scratch-grid">
+        <div class="scratch-card" onclick="this.classList.add('revealed')">
+          <span>u show up for me always ❤️</span>
+          <div class="scratch-cover">Scratch Me! ✨</div>
+        </div>
+        <div class="scratch-card" onclick="this.classList.add('revealed')">
+          <span>ur smile is magic 🌻</span>
+          <div class="scratch-cover">Scratch Me! ✨</div>
+        </div>
+        <div class="scratch-card" onclick="this.classList.add('revealed')">
+          <span>u r my favorite home 🏠</span>
+          <div class="scratch-cover">Scratch Me! ✨</div>
+        </div>
+        <div class="scratch-card" onclick="this.classList.add('revealed')">
+          <span>Stuck with me forever! 🔒</span>
+          <div class="scratch-cover">Scratch Me! ✨</div>
+        </div>
+      </div>
+
+      <button class="nav-btn" onclick="nextPage(6)">PLAY GAME 3: LOVE QUIZ 🧠</button>
+    </div>
+  </div>
+
+  <!-- PAGE 6: GAME 3 - LOVE QUIZ -->
+  <div class="page" id="page-6">
+    <div class="card">
+      <div class="tag">Mini Game <3</div>
+      <h2>The Cute Love Quiz</h2>
+      <p class="subtext" id="quiz-question">Question: Who loves u the absolute most in the world?</p>
+
+      <div class="quiz-options" id="quiz-options">
+        <div class="quiz-opt" onclick="answerQuiz('Aayu!')">Aayu (without a doubt) ❤️</div>
+        <div class="quiz-opt" onclick="answerQuiz('Aayu again!')">Aayu (definitely) 🥰</div>
+        <div class="quiz-opt" onclick="answerQuiz('Still Aayu forever! {ofc me} ')">Still Aayu forever! 🔒</div>
+      </div>
+
+      <p id="quiz-result" style="font-weight: bold; color: #e05275; height: 24px;"></p>
+
+      <button class="nav-btn" onclick="nextPage(7)">WHY I ADORE U 🌷</button>
+    </div>
+  </div>
+
+  <!-- PAGE 7: 6 REASONS GRID -->
+  <div class="page" id="page-7">
+    <div class="card">
+      <div class="tag">🌷 Picked Just For U ♡</div>
+      <div class="grid">
+        <div class="grid-item"><span>🌺</span><p>u feel like home</p></div>
+        <div class="grid-item"><span>🌻</span><p>ur laugh is my favourite sound</p></div>
+        <div class="grid-item"><span>🌷</span><p>u make ordinary days magic</p></div>
+        <div class="grid-item"><span>🌸</span><p>u're my calm and my spark</p></div>
+        <div class="grid-item"><span>🌼</span><p>u make me want to be better</p></div>
+        <div class="grid-item"><span>💐</span><p>it's u. it's always u.</p></div>
+      </div>
+
+      <button class="nav-btn" onclick="nextPage(8)">READ MY LETTER ✉️</button>
+    </div>
+  </div>
+
+  <!-- PAGE 8: LOVE LETTER -->
+  <div class="page" id="page-8">
+    <div class="card letter">
+      <div class="tag" style="text-align: center; display: block;">✉️ A Letter, Just For u ♡</div>
+      <h2 style="text-align: center; margin-bottom: 10px; color: #a07cc5;">My love Ekshu,</h2>
+      
+      <div class="gif-container" style="margin: 10px 0;">
+        <img class="cute-gif" style="width: 110px; height: 110px;" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeW9lOXM5b2t5bGxjYjAyc2NzZzkyOTk4cXZkZzJ1Y3d5d3MwY3loMSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/IzXiddo2twMmdmU8Lv/giphy.gif" alt="Cute GIF">
+      </div>
+
+      <p class="subtext" style="color: var(--text-dark);"> BABYYYYY HAPPIESSTTTTTT GF DAYYY heheh my love my life my wifeyy pls be Okie be well and be safe cz ur important to me and also I made this for u cz I wnna see ur smileeeeeewww and happiness.
+      </p>
+      <p class="subtext" style="color: var(--text-dark);"> my bubu I know I m a little bit different from others (i mean more weird and different) but really I love u sooo muchhhh Ekshu I love u soo muchh and thank u for staying with me after this all and I am really really sorry sorry for what I did on our past but I didn't mean to be bad too still u r with me is really big thing for me and I love u sooo muchhhhh Ekshu.
+      </p>
+      <p class="subtext" style="color: var(--text-dark);">
+        I just want u to be happy and feel safe with me, and also I m very very happy to have u and u r in my heart always so don't worry I m always ur babe and also most important thing that this is ur day for me and I wnna give u soo many gifts too but I can't do cz of long-distance but still I m trying my best to do everything for u my special person stay happy always ♡.
+      </p>
+      <p style="text-align: right; font-weight: bold; color: var(--accent-purple); margin-top: 15px;">
+        urs always, Aayu ❤️
+      </p>
+      <div style="text-align: center;">
+        <button class="nav-btn" onclick="nextPage(1)">↺ READ IT AGAIN</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Page Navigation (Safeguarded)
+    function nextPage(pageNumber) {
+      const activePage = document.querySelector('.page.active');
+      if (activePage) {
+        activePage.style.opacity = '0';
+        setTimeout(() => {
+          activePage.classList.remove('active');
+          const targetPage = document.getElementById(`page-${pageNumber}`);
+          if (targetPage) {
+            targetPage.classList.add('active');
+            setTimeout(() => {
+              targetPage.style.opacity = '1';
+            }, 50);
+          }
+        }, 300);
+      }
+    }
+
+    // Unblocked Open & Play Function
+    function openAndPlay(pageNumber) {
+      nextPage(pageNumber);
+      try {
+        if (widget) {
+          widget.play();
+        }
+      } catch (err) {
+        console.log('Audio autoplay prevented or loading:', err);
+      }
+    }
+
+    // SoundCloud Controller Setup
+    let widget = null;
+    let isPlaying = false;
+    let trackDuration = 0;
+
+    const playToggleBtn = document.getElementById('playToggleBtn');
+    const trackStatus = document.getElementById('trackStatus');
+    const progressBar = document.getElementById('progress-bar');
+
+    window.addEventListener('load', () => {
+      const iframeElement = document.getElementById('scWidget');
+      if (window.SC && window.SC.Widget) {
+        widget = SC.Widget(iframeElement);
+
+        widget.bind(SC.Widget.Events.READY, () => {
+          widget.getDuration((d) => { trackDuration = d; });
+        });
+
+        widget.bind(SC.Widget.Events.PLAY, () => {
+          isPlaying = true;
+          if (playToggleBtn) playToggleBtn.innerText = '❚❚';
+          if (trackStatus) trackStatus.textContent = 'NOW PLAYING... 🎵';
+        });
+
+        widget.bind(SC.Widget.Events.PAUSE, () => {
+          isPlaying = false;
+          if (playToggleBtn) playToggleBtn.innerText = '▶';
+          if (trackStatus) trackStatus.textContent = 'PAUSED';
+        });
+
+        widget.bind(SC.Widget.Events.PLAY_PROGRESS, (data) => {
+          if (trackDuration > 0 && progressBar) {
+            const progressPercent = (data.currentPosition / trackDuration) * 100;
+            progressBar.style.width = progressPercent + '%';
+          }
+        });
+      }
+    });
+
+    function togglePlay() {
+      if (!widget) return;
+      if (!isPlaying) { widget.play(); } else { widget.pause(); }
+    }
+
+    function seekTrack(e) {
+      if (!widget || trackDuration === 0) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const pct = clickX / rect.width;
+      widget.seekTo(trackDuration * pct);
+    }
+
+    // Carousel Data
+    const slides = [
+      {
+        url: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHhkeDFoam5mbGtuZ3Izc2RuODgzcmFiZDN5Z3dyODBtODNrcDFwZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/hVle3v01CScLyGRe0i/giphy.gif",
+        caption: "the day I realized you were my favourite hello.",
+        count: "01 / 03"
+      },
+      {
+        url: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmk1c25oODZqdzIweWZyM3FwMGh1dXQ3bGZ2NGQ2b3NoMXRkeDdseiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3PtzgNmZ0t2Nd7aOvj/giphy.gif",
+        caption: "every quiet moment with you is my favourite kind.",
+        count: "02 / 03"
+      },
+      {
+        url: "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZnA5ZzVpNWdrZ3hocGJkajF5NHI5OTIxdHhjOW1mMzZndmZ3N3AyciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/qECWEJ69G0Wf4sGRwZ/giphy.gif",
+        caption: "I'd choose this — us, exactly like this — every time.",
+        count: "03 / 03"
+      }
+    ];
+
+    let currentSlide = 0;
+    function updateSlide() {
+      document.getElementById('carousel-img').src = slides[currentSlide].url;
+      document.getElementById('carousel-caption').innerText = slides[currentSlide].caption;
+      document.getElementById('carousel-counter').innerText = slides[currentSlide].count;
+    }
+    function nextSlide() { currentSlide = (currentSlide + 1) % slides.length; updateSlide(); }
+    function prevSlide() { currentSlide = (currentSlide - 1 + slides.length) % slides.length; updateSlide(); }
+
+    // Mini-Game 1: Catch Hearts Logic
+    let score = 0;
+    let timeLeft = 10;
+    let gameTimer = null;
+
+    function moveHeart() {
+      const box = document.getElementById('game-box');
+      const heart = document.getElementById('heart-target');
+      const maxX = box.clientWidth - 40;
+      const maxY = box.clientHeight - 40;
+      const x = Math.floor(Math.random() * maxX);
+      const y = Math.floor(Math.random() * maxY);
+      heart.style.left = x + 'px';
+      heart.style.top = y + 'px';
+    }
+
+    function catchHeart() {
+      score++;
+      document.getElementById('game1-status').innerText = `Score: ${score} | Time Left: ${timeLeft}s`;
+      moveHeart();
+    }
+
+    function startCatchGame() {
+      score = 0;
+      timeLeft = 10;
+      moveHeart();
+      document.getElementById('game1-status').innerText = `Score: ${score} | Time Left: ${timeLeft}s`;
+      clearInterval(gameTimer);
+      gameTimer = setInterval(() => {
+        timeLeft--;
+        document.getElementById('game1-status').innerText = `Score: ${score} | Time Left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(gameTimer);
+          alert(`Time's up! u caught ${score} hearts! u have all my love ❤️`);
+        }
+      }, 1000);
+    }
+
+    // Mini-Game 3: Love Quiz Logic
+    function answerQuiz(choice) {
+      document.getElementById('quiz-result').innerText = `Correct! ${choice}`;
+    }
+  </script>
+</body>
+</html>
